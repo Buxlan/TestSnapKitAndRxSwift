@@ -12,6 +12,62 @@ class ViewController: UIViewController {
     
     // MARK: - Properties
     
+    private lazy var topCenterLabel: UILabel = {
+        let view = UILabel()
+        view.backgroundColor = .blue
+        view.textColor = .white
+        view.text = "This app was created for testing SnapKit and RxSwift"
+        view.numberOfLines = 2
+        view.textAlignment = .center
+        view.font = .preferredFont(forTextStyle: .title1)
+        return view
+    }()
+    
+    private lazy var centerLabel: UILabel = {
+        let view = UILabel()
+        view.backgroundColor = .gray
+        view.text = "Center Label"
+        view.numberOfLines = 2
+        view.textAlignment = .center
+        return view
+    }()
+    
+    private lazy var leadingCenterLabel: UILabel = {
+        let view = UILabel()
+        view.backgroundColor = .red
+        view.text = "Leading Label"
+        view.numberOfLines = 2
+        view.textAlignment = .center
+        return view
+    }()
+    
+    private lazy var trailingCenterLabel: UILabel = {
+        let view = UILabel()
+        view.backgroundColor = .red
+        view.text = "Trailing Label"
+        view.numberOfLines = 2
+        view.textAlignment = .center
+        return view
+    }()
+    
+    private lazy var aboveCenterLabel: UILabel = {
+        let view = UILabel()
+        view.backgroundColor = .red
+        view.text = "Label above center view"
+        view.numberOfLines = 2
+        view.textAlignment = .center
+        return view
+    }()
+    
+    private lazy var belowCenterLabel: UILabel = {
+        let view = UILabel()
+        view.backgroundColor = .red
+        view.text = "Label below center view"
+        view.numberOfLines = 2
+        view.textAlignment = .center
+        return view
+    }()
+    
     private lazy var bottomLeftButton: UIButton = {
         let view = UIButton()
         view.setTitle("Press me", for: .normal)
@@ -19,51 +75,6 @@ class ViewController: UIViewController {
         view.layer.borderWidth = 0.5
         view.layer.cornerRadius = 8
         view.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
-        return view
-    }()
-    
-    private lazy var centerView: UILabel = {
-        let view = UILabel()
-        view.backgroundColor = .gray
-        view.text = "Center view"
-        view.numberOfLines = 2
-        view.textAlignment = .center
-        return view
-    }()
-    
-    private lazy var leadingCenterView: UILabel = {
-        let view = UILabel()
-        view.backgroundColor = .red
-        view.text = "Leading view"
-        view.numberOfLines = 2
-        view.textAlignment = .center
-        return view
-    }()
-    
-    private lazy var trailingCenterView: UILabel = {
-        let view = UILabel()
-        view.backgroundColor = .red
-        view.text = "Trailing view"
-        view.numberOfLines = 2
-        view.textAlignment = .center
-        return view
-    }()
-    
-    private lazy var aboveCenterView: UILabel = {
-        let view = UILabel()
-        view.backgroundColor = .red
-        view.text = "View above center view"
-        view.numberOfLines = 2
-        view.textAlignment = .center
-        return view
-    }()
-    
-    private lazy var belowCenterView: UILabel = {
-        let view = UILabel()
-        view.backgroundColor = .red
-        view.text = "View below center view"
-        view.numberOfLines = 2
-        view.textAlignment = .center
         return view
     }()
     
@@ -82,45 +93,53 @@ extension ViewController {
     
     private func configureUI() {
         view.addSubview(bottomLeftButton)
-        view.addSubview(centerView)
-        view.addSubview(leadingCenterView)
-        view.addSubview(trailingCenterView)
-        view.addSubview(aboveCenterView)
-        view.addSubview(belowCenterView)
+        view.addSubview(topCenterLabel)
+        view.addSubview(centerLabel)
+        view.addSubview(leadingCenterLabel)
+        view.addSubview(trailingCenterLabel)
+        view.addSubview(aboveCenterLabel)
+        view.addSubview(belowCenterLabel)
         configureConstraints()
     }
     
     private func configureConstraints() {
+        
+        topCenterLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.layoutMarginsGuide.snp.top)
+            make.width.equalTo(view.snp.width)
+            make.centerX.equalTo(view.snp.centerX)            
+        }
+        
         bottomLeftButton.snp.makeConstraints { make in
             make.right.equalTo(view.snp.right).offset(-50)
             make.bottom.equalTo(view.layoutMarginsGuide.snp.bottom).offset(-50)
         }
-        centerView.snp.makeConstraints { make in
+        centerLabel.snp.makeConstraints { make in
             make.center.equalTo(view.snp.center)
             make.height.equalTo(120)
             make.width.equalTo(150)
         }
-        leadingCenterView.snp.makeConstraints { make in
-            make.top.equalTo(centerView.snp.top)
-            make.bottom.equalTo(centerView.snp.bottom)
+        leadingCenterLabel.snp.makeConstraints { make in
+            make.top.equalTo(centerLabel.snp.top)
+            make.bottom.equalTo(centerLabel.snp.bottom)
             make.leading.equalTo(view.snp.leading)
-            make.trailing.equalTo(centerView.snp.leading)
+            make.trailing.equalTo(centerLabel.snp.leading)
         }
-        trailingCenterView.snp.makeConstraints { make in
-            make.top.equalTo(centerView.snp.top)
-            make.bottom.equalTo(centerView.snp.bottom)
-            make.leading.equalTo(centerView.snp.trailing)
+        trailingCenterLabel.snp.makeConstraints { make in
+            make.top.equalTo(centerLabel.snp.top)
+            make.bottom.equalTo(centerLabel.snp.bottom)
+            make.leading.equalTo(centerLabel.snp.trailing)
             make.trailing.equalTo(view.snp.trailing)
         }
         
-        aboveCenterView.snp.makeConstraints { make in
-            make.bottom.equalTo(centerView.snp.top).offset(-40)
+        aboveCenterLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(centerLabel.snp.top).offset(-40)
             make.width.equalTo(view.layoutMarginsGuide.snp.width).offset(-50)
             make.centerX.equalTo(view.snp.centerX)
         }
         
-        belowCenterView.snp.makeConstraints { make in
-            make.top.equalTo(centerView.snp.bottom).offset(40)
+        belowCenterLabel.snp.makeConstraints { make in
+            make.top.equalTo(centerLabel.snp.bottom).offset(40)
             make.width.equalTo(view.layoutMarginsGuide.snp.width).offset(-50)
             make.centerX.equalTo(view.snp.centerX)
         }
