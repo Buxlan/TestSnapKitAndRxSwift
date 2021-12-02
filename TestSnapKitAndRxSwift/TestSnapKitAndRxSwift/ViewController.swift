@@ -44,7 +44,7 @@ class ViewController: UIViewController {
     
     private lazy var leadingCenterLabel: UILabel = {
         let view = UILabel()
-        view.backgroundColor = .red
+        view.backgroundColor = .lightGray
         view.text = "Leading Label"
         view.numberOfLines = 2
         view.textAlignment = .center
@@ -53,7 +53,7 @@ class ViewController: UIViewController {
     
     private lazy var trailingCenterLabel: UILabel = {
         let view = UILabel()
-        view.backgroundColor = .red
+        view.backgroundColor = .lightGray
         view.text = "Trailing Label"
         view.numberOfLines = 2
         view.textAlignment = .center
@@ -62,7 +62,7 @@ class ViewController: UIViewController {
     
     private lazy var aboveCenterLabel: UILabel = {
         let view = UILabel()
-        view.backgroundColor = .red
+        view.backgroundColor = .lightGray
         view.text = "Label above center label"
         view.numberOfLines = 2
         view.textAlignment = .center
@@ -71,7 +71,7 @@ class ViewController: UIViewController {
     
     private lazy var belowCenterLabel: UILabel = {
         let view = UILabel()
-        view.backgroundColor = .red
+        view.backgroundColor = .lightGray
         view.text = "Label below center label"
         view.numberOfLines = 2
         view.textAlignment = .center
@@ -142,12 +142,12 @@ extension ViewController {
         }
         
         bottomLeftButton.snp.makeConstraints { make in
-            make.right.equalTo(view.snp.right).offset(-50)
+            make.right.equalTo(belowCenterLabel.snp.right)
             make.bottom.equalTo(view.layoutMarginsGuide.snp.bottom).offset(-50)
         }
         
         changeTextButton.snp.makeConstraints { make in
-            make.right.equalTo(view.snp.right).offset(-50)
+            make.right.equalTo(belowCenterLabel.snp.right)
             make.bottom.equalTo(bottomLeftButton.snp.top).offset(-16)
         }
         
