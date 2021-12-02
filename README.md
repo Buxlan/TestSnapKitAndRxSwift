@@ -4,4 +4,4 @@ This app was created for testing SnapKit and RxSwift
 
 Conclusions: SnapKit is much easier than autolayout (if you know autolayout)!
 
-![image](https://user-images.githubusercontent.com/5717020/144349964-88264142-f6e0-4a6c-b0ae-44e814f29395.png)
+![image](https://user-images.githubusercontent.com/5717020/144350260-f94aaa37-8c48-4aad-8783-1d6322ce4228.png)
