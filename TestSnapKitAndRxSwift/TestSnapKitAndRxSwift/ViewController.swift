@@ -27,6 +27,7 @@ class ViewController: UIViewController {
         let view = UITextView()
         view.text = "Флагманское телемедицинское решение компании является крупнейшим в стране по количеству подключенных пользователей. Его используют ДЗМ г. Москвы, «Доктор рядом», ГК «Эксперт», «Лечебный центр», ФНКЦ ФМБА России и другие медицинские организации."
         view.backgroundColor = .black
+        view.isEditable = false
         view.textAlignment = .center
         view.textColor = .white
         view.font = .preferredFont(forTextStyle: .headline)
