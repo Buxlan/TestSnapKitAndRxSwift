@@ -75,6 +75,7 @@ class ViewController: UIViewController {
         view.layer.borderWidth = 0.5
         view.layer.cornerRadius = 8
         view.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
+        view.addTarget(self, action: #selector(buttonTapHandle), for: .touchUpInside)
         return view
     }()
     
@@ -107,7 +108,7 @@ extension ViewController {
         topCenterLabel.snp.makeConstraints { make in
             make.top.equalTo(view.layoutMarginsGuide.snp.top)
             make.width.equalTo(view.snp.width)
-            make.centerX.equalTo(view.snp.centerX)            
+            make.centerX.equalTo(view.snp.centerX)
         }
         
         bottomLeftButton.snp.makeConstraints { make in
@@ -142,6 +143,16 @@ extension ViewController {
             make.top.equalTo(centerLabel.snp.bottom).offset(40)
             make.width.equalTo(view.layoutMarginsGuide.snp.width).offset(-50)
             make.centerX.equalTo(view.snp.centerX)
+        }
+        
+    }
+    
+    @objc func buttonTapHandle() {
+        
+        bottomLeftButton.isSelected.toggle()
+        
+        UIView.animate(withDuration: 1.5) {
+            self.aboveCenterLabel.alpha = self.bottomLeftButton.isSelected ? 0.0 : 1.0
         }
         
     }
