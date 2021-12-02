@@ -152,7 +152,7 @@ extension ViewController {
         bottomLeftButton.isSelected.toggle()
         
         UIView.animate(withDuration: 1.5) {
-            self.aboveCenterLabel.alpha = self.bottomLeftButton.isSelected ? 0.0 : 1.0
+            self.aboveCenterLabel.alpha = self.bottomLeftButton.isSelected ? 0.3 : 1.0
         }
         
     }
