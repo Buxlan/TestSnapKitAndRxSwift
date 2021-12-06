@@ -5,12 +5,15 @@
 //  Created by  Buxlan on 12/2/21.
 //
 
-import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
     
     // MARK: - Properties
+    
+    let viewModel = MainViewModel()
     
     private lazy var topCenterLabel: UILabel = {
         let view = UILabel()
@@ -25,7 +28,6 @@ class ViewController: UIViewController {
     
     private lazy var textView: UITextView = {
         let view = UITextView()
-        view.text = "Флагманское телемедицинское решение компании является крупнейшим в стране по количеству подключенных пользователей. Его используют ДЗМ г. Москвы, «Доктор рядом», ГК «Эксперт», «Лечебный центр», ФНКЦ ФМБА России и другие медицинские организации."
         view.backgroundColor = .black
         view.isEditable = false
         view.textAlignment = .center
@@ -85,18 +87,19 @@ class ViewController: UIViewController {
         view.setTitleColor(.black, for: .normal)
         view.layer.borderWidth = 0.5
         view.layer.cornerRadius = 8
-        view.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
+        view.contentEdgeInsets = .init(top: 8, left: 12, bottom: 8, right: 12)
         view.addTarget(self, action: #selector(buttonChangeTextHandle), for: .touchUpInside)
         return view
     }()
     
     private lazy var bottomLeftButton: UIButton = {
         let view = UIButton()
-        view.setTitle("Change alpha of label", for: .normal)
-        view.setTitleColor(.black, for: .normal)
+        view.setTitle("Go to Sign in", for: .normal)
+        view.backgroundColor = .systemBlue
+        view.setTitleColor(.white, for: .normal)
         view.layer.borderWidth = 0.5
         view.layer.cornerRadius = 8
-        view.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
+        view.contentEdgeInsets = .init(top: 8, left: 12, bottom: 8, right: 12)
         view.addTarget(self, action: #selector(buttonTapHandle), for: .touchUpInside)
         return view
     }()
@@ -107,12 +110,27 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureViewModel()
+    }
 
 }
 
 // MARK: - Helper methods
 
-extension ViewController {
+extension MainViewController {
+    
+    private func configureViewModel() {
+        
+        let _ = viewModel.obserbableText
+            .subscribe(onNext: { [weak self] value in
+                self?.textView.text = value
+                self?.textViewUpdateConstraints()
+            })
+            .disposed(by: viewModel.disposeBag)
+    }
     
     private func configureUI() {
         view.addSubview(bottomLeftButton)
@@ -143,12 +161,12 @@ extension ViewController {
         }
         
         bottomLeftButton.snp.makeConstraints { make in
-            make.right.equalTo(belowCenterLabel.snp.right)
+            make.centerX.equalTo(view.snp.centerX)
             make.bottom.equalTo(view.layoutMarginsGuide.snp.bottom).offset(-50)
         }
         
         changeTextButton.snp.makeConstraints { make in
-            make.right.equalTo(belowCenterLabel.snp.right)
+            make.centerX.equalTo(view.snp.centerX)
             make.bottom.equalTo(bottomLeftButton.snp.top).offset(-16)
         }
         
@@ -185,18 +203,25 @@ extension ViewController {
         
     }
     
-    @objc func buttonTapHandle() {
-        
-        bottomLeftButton.isSelected.toggle()
-        
-        UIView.animate(withDuration: 1.5) {
-            self.aboveCenterLabel.alpha = self.bottomLeftButton.isSelected ? 0.3 : 1.0
-        }
-        
+    @objc func buttonTapHandle() {        
+        let vc = SignInViewController()
+        vc.modalTransitionStyle = .crossDissolve
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func buttonChangeTextHandle() {
-        textView.text = "​Все разработки компании выполнены согласно стандартами обмена медицинской информацией HL7 CDA, PIX, PDQ, OpenEHR и соответствуют законодательству РФ."
+        let text = "​Все разработки компании выполнены согласно стандартами обмена медицинской информацией HL7 CDA, PIX, PDQ, OpenEHR и соответствуют законодательству РФ."
+        viewModel.obserbableText.accept(text)
+        textView.snp.updateConstraints { make in
+            let size = textView.sizeThatFits(CGSize(width: view.frame.width,
+                                                    height: CGFloat(MAXFLOAT)))
+            make.top.equalTo(topCenterLabel.snp.bottom).offset(8)
+            make.width.equalTo(view.snp.width)
+            make.height.lessThanOrEqualTo(size)
+        }
+    }
+    
+    private func textViewUpdateConstraints() {
         textView.snp.updateConstraints { make in
             let size = textView.sizeThatFits(CGSize(width: view.frame.width,
                                                     height: CGFloat(MAXFLOAT)))
